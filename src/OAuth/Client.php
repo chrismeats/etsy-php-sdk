@@ -190,7 +190,7 @@ class Client {
 				}
 			}
 		}
-	$error = $body->error ?? $body['error'];
+	$error = $body->error ?? print_r($body, true);
       throw new RequestException(
         "Received HTTP status code [$status_code] with error \"{$error}\"."
       );
