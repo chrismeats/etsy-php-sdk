@@ -190,10 +190,13 @@ class Client {
 				}
 			}
 		}
-	$error = $body->error ?? print_r($body, true);
-      throw new RequestException(
-        "Received HTTP status code [$status_code] with error \"{$error}\"."
-      );
+	$error = is_array($body) ? implode(' ', array_map(function ($bodyError) {
+	    return $bodyError->path .' '. $bodyError->message;
+	}, $body)) : $body->error;
+
+	throw new RequestException(
+	    "Received HTTP status code [$status_code] with error \"{$error}\"."
+	);
     }
   }
 
