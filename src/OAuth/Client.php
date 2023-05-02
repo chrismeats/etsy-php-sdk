@@ -192,7 +192,7 @@ class Client {
 		}
 
       throw new RequestException(
-        "Received HTTP status code [$status_code] with error \"{$body->error}\"."
+        "Received HTTP status code [$status_code] with error \"{$body->error ?? $body['error']}\"."
       );
     }
   }
