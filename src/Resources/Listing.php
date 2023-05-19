@@ -129,7 +129,7 @@ class Listing extends Resource {
    * @return Etsy\Resources\ListingFile
    */
   public function uploadFile(array $data) {
-    if(!isset($data['image']) && !isset($data['listing_image_id'])) {
+    if(!isset($data['file']) && !isset($data['listing_file_id'])) {
       throw new ApiException("Request requires either 'listing_file_id' or 'file' paramater.");
     }
     $listing_file = $this->request(
