@@ -106,6 +106,13 @@ class Client {
     if(in_array($method, ['post', 'put'])) {
       if($file = RequestUtil::prepareFile($args[1] ?? [])) {
         $opts['multipart'] = $file;
+	      /** TODO: this should be done a better way, and probably in RequestUtil **/
+	      if (isset($args[1]['name'])) {
+              $opts['multipart'][] = [
+                  'name' => 'name',
+                  'contents' => $args[1]['name'],
+              ];
+          }
       }
       else {
         $opts['form_params'] = $args[1] ?? [];
