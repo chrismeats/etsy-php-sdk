@@ -340,5 +340,20 @@ class Listing extends Resource {
       $data
     );
   }
+  
+  /**
+   * Get all reviews for the listing.
+   *
+   * @param array $params
+   * @return Etsy\Collection[Etsy\Resources\Review]
+   */
+  public function getReviews(array $params = []) {
+    return $this->request(
+      "GET",
+      "/application/listings/{$this->listing_id}/reviews",
+      "Review",
+      $params
+    );
+  }
 
 }
