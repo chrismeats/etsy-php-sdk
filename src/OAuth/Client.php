@@ -146,6 +146,23 @@ class Client {
         return $response;
       }
 
+	    $headers = $response->getHeaders();
+		// check to make sure seconds rate limit is what hit
+	      if (
+		  $status_code == 429 &&
+		  isset($headers['X-Remaining-This-Second'][0]) &&
+		  $headers['X-Remaining-This-Second'][0] < 1
+	      ) {
+		  // make sure we dont get stuck in infinite retries
+		  $tries = $args['tryCount'] ?? 1;
+		  if ($tries < 5) {
+		      //X-Remaining-This-Second
+		      sleep(1);// wait 1 second
+		      // make a recursive call
+		      $args['tryCount'] = $tries++;
+		      return $this->__call($method, $args);
+		  }
+	      }
 		if (
 			$status_code == 401 &&
 			$body->error == "invalid_token" &&
