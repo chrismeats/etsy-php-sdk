@@ -74,6 +74,12 @@ class Etsy {
       $response->results,
       $resource
     );
+    if (isset($collection->count)) {
+        $collection->total = $response->count;
+    }
+    if (isset($response->headers)) {
+        $collection->headers = $response->headers;
+    }
     return $collection;
   }
 
