@@ -85,10 +85,16 @@ class Client {
    * @return void
    */
   public function setApiKey($api_key) {
-    $this->headers = [
-      'x-api-key' => $this->client_id,
-      'Authorization' => "Bearer {$api_key}"
-    ];
+    if (isset($api_key)) {
+          $this->headers = [
+              'x-api-key' => $this->client_id,
+              'Authorization' => "Bearer {$api_key}"
+          ];
+      } else {
+          $this->headers = [
+              'x-api-key' => $this->client_id,
+          ];
+      }
   }
 
   public function __call($method, $args) {
