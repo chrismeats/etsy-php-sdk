@@ -202,6 +202,63 @@ class Listing extends Resource {
   }
 
   /**
+   * Get the Listing Videos for the listing.
+   *
+   * @link https://developers.etsy.com/documentation/reference#operation/getListingVideos
+   * @return Etsy\Collection[Etsy\Resources\ListingVideo]
+   */
+  public function getVideos() {
+    return $this->request(
+      "GET",
+      "/application/listings/{$this->listing_id}/videos",
+      "ListingVideo"
+    )
+      ->append(["shop_id" => $this->shop_id]);
+  }
+
+  /**
+   * Get a specific listing video.
+   *
+   * @link https://developers.etsy.com/documentation/reference#operation/getListingVideo
+   * @param integer|string $listing_video_id
+   * @return Etsy\Resources\ListingVideo
+   */
+  public function getVideo($listing_video_id) {
+    $listing_video = $this->request(
+      "GET",
+      "/application/listings/{$this->listing_id}/videos/{$listing_video_id}",
+      "ListingVideo"
+    );
+    if($listing_video) {
+      $listing_video->shop_id = $this->shop_id;
+    }
+    return $listing_video;
+  }
+
+  /**
+   * Upload a listing video.
+   *
+   * @link https://developers.etsy.com/documentation/reference#operation/uploadListingVideo
+   * @param array $data
+   * @return Etsy\Resources\ListingVideo
+   */
+  public function uploadVideo(array $data) {
+    if(!isset($data['video']) && !isset($data['video_id'])) {
+      throw new ApiException("Request requires either 'video_id' or 'video' paramater.");
+    }
+    $listing_video = $this->request(
+      "POST",
+      "/application/shops/{$this->shop_id}/listings/{$this->listing_id}/videos",
+      "ListingVideo",
+      $data
+    );
+    if($listing_video) {
+      $listing_video->shop_id = $this->shop_id;
+    }
+    return $listing_video;
+  }
+
+  /**
    * Get the inventory for the listing.
    *
    * @link https://developers.etsy.com/documentation/reference#operation/getListingInventory
