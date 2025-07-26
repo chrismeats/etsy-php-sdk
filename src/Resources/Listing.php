@@ -19,7 +19,11 @@ class Listing extends Resource {
   protected $_associations = [
     "Shop" => "Shop",
     "User" => "User",
-    "Images" => "Image"
+    "Images" => "Image",
+    "Translations" => "Translation",
+    "Inventory" => "Inventory",
+    "Videos" => "Video",
+    "Shipping" => "Shipping"
   ];
 
   /**
@@ -32,7 +36,8 @@ class Listing extends Resource {
   public function update(array $data) {
     return $this->updateRequest(
       "/application/shops/{$this->shop_id}/listings/{$this->listing_id}",
-      $data
+      $data,
+      'PATCH'
     );
   }
 
@@ -44,7 +49,7 @@ class Listing extends Resource {
    */
   public function delete() {
     return $this->deleteRequest(
-      "/application/shops/{$this->shop_id}/listings/{$this->listing_id}"
+      "/application/listings/{$this->listing_id}"
     );
   }
 
@@ -153,7 +158,7 @@ class Listing extends Resource {
   public function getImages() {
     return $this->request(
       "GET",
-      "/application/shops/{$this->shop_id}/listings/{$this->listing_id}/images",
+      "/application/listings/{$this->listing_id}/images",
       "ListingImage"
     )
       ->append(["shop_id" => $this->shop_id]);
@@ -169,7 +174,7 @@ class Listing extends Resource {
   public function getImage($listing_image_id) {
     $listing_image = $this->request(
       "GET",
-      "/application/shops/{$this->shop_id}/listings/{$this->listing_id}/images/{$listing_image_id}",
+      "/application/listings/{$this->listing_id}/images/{$listing_image_id}",
       "ListingImage"
     );
     if($listing_image) {
