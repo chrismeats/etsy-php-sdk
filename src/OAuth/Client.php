@@ -109,7 +109,7 @@ class Client {
     if($method == 'get' && count($args[1] ?? [])) {
       $uri .= "?".RequestUtil::prepareParameters($args[1]);
     }
-    if(in_array($method, ['post', 'put'])) {
+    if(in_array($method, ['post', 'put', 'patch'])) {
       if($file = RequestUtil::prepareFile($args[1] ?? [])) {
         $opts['multipart'] = $file;
 	      /** TODO: this should be done a better way, and probably in RequestUtil **/
